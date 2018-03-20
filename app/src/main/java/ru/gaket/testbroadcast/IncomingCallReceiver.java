@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class IncomingCallReceiver extends BroadcastReceiver {
 
-    boolean f = true;
+    boolean shouldCreate = true;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -21,7 +21,10 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
         TelephonyManager telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
-        if (f) {
+        if (shouldCreate) {
+
+            shouldCreate = false;
+
             telephony.listen(new PhoneStateListener() {
                 @Override
                 public void onCallStateChanged(int state, String incomingNumber) {
@@ -29,7 +32,6 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                 }
             }, PhoneStateListener.LISTEN_CALL_STATE);
 
-            f = false;
         }
     }
 }
